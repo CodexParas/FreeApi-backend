@@ -2,8 +2,8 @@ package com.paras.FreeAPIs.servicesImpl.publicServicesImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.paras.FreeAPIs.DTO.ResponseDTO;
-import com.paras.FreeAPIs.json.JsonSupplier;
 import com.paras.FreeAPIs.services.publicServices.MealService;
+import com.paras.FreeAPIs.utils.JsonSupplier;
 import com.paras.FreeAPIs.utils.PublicUtilities;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,15 +15,21 @@ import java.util.Optional;
 public class MealServiceImpl implements MealService {
     private final JsonSupplier jsonSupplier;
     private final PublicUtilities publicUtilities;
-    private final JsonNode meals = jsonSupplier.getJson("meals");
+    private JsonNode meals;
 
     public ResponseDTO getMeal (int page, int limit, String query, String inc) {
+        if (meals == null) {
+            meals = jsonSupplier.getJson("meals");
+        }
         return ResponseDTO.success(
                 "Meals fetched successfully",
                 publicUtilities.getPagedData(meals, page, limit));
     }
 
     public ResponseDTO getMealById (String id) {
+        if (meals == null) {
+            meals = jsonSupplier.getJson("meals");
+        }
         Optional<JsonNode> mealOptional = publicUtilities.findById(id, meals);
         if (mealOptional.isPresent()) {
             return ResponseDTO.success(
@@ -34,6 +40,9 @@ public class MealServiceImpl implements MealService {
     }
 
     public ResponseDTO getRandomMeal () {
+        if (meals == null) {
+            meals = jsonSupplier.getJson("meals");
+        }
         int randomIndex = (int) (Math.random() * meals.size());
         return ResponseDTO.success(
                 "Random meal fetched successfully",

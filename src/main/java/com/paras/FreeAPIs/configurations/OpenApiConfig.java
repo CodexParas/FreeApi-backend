@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -37,4 +39,20 @@ import io.swagger.v3.oas.annotations.servers.Server;
 //        in = SecuritySchemeIn.HEADER
 //)
 public class OpenApiConfig {
+
+    @Bean
+    public GroupedOpenApi publicApi () {
+        return GroupedOpenApi.builder()
+                             .group("public-api")
+                             .pathsToMatch("/public/**")
+                             .build();
+    }
+
+    @Bean
+    public GroupedOpenApi kitchenApi () {
+        return GroupedOpenApi.builder()
+                             .group("kitchen-api")
+                             .pathsToMatch("/kitchen/**")
+                             .build();
+    }
 }

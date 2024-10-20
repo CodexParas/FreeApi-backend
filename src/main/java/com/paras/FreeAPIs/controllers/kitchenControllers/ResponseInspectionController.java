@@ -55,7 +55,6 @@ public class ResponseInspectionController extends KitchenController {
         return ResponseEntity.ok(ResponseDTO.success("Headers set", headers));
     }
 
-    // todo: Test this
     @GetMapping("/html")
     @SneakyThrows
     public ResponseEntity<String> html () {
@@ -76,7 +75,6 @@ public class ResponseInspectionController extends KitchenController {
         return ResponseEntity.ok().headers(headers).body(xmlContent);
     }
 
-    // todo: Test this
     @GetMapping("/gzip")
     public void gzip (HttpServletResponse response) throws Exception {
         response.setStatus(HttpStatus.OK.value());

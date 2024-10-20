@@ -3,6 +3,7 @@ package com.paras.FreeAPIs.controllers;
 import com.paras.FreeAPIs.DTO.ResponseDTO;
 import com.paras.FreeAPIs.DTO.TodoRequestDTO;
 import com.paras.FreeAPIs.services.TodoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/todos")
 @RequiredArgsConstructor
+@Tag(name = "Todo", description = "Todo APIs")
 public class TodoController {
 
     private final TodoService todoService;

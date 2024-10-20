@@ -35,7 +35,6 @@ public class CatServiceImpl implements CatService {
                 null);
     }
 
-    // todo: implement getRandomCat
     public ResponseDTO getRandomCat () {
         final int randomIndex = (int) (Math.random() * cats.size());
         return ResponseDTO.success(

@@ -25,7 +25,7 @@ public class PublicUtilities {
 
     public Optional<JsonNode> findById (String id, JsonNode node) {
         return StreamSupport.stream(node.spliterator(), false)
-                            .filter(book -> book.get("id").asText().equals(id))
+                            .filter(n -> n.get("id").asText().equals(id))
                             .findFirst();
     }
 }

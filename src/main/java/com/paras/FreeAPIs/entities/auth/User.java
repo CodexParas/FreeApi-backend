@@ -21,6 +21,8 @@ import java.util.List;
 @Builder
 public class User implements UserDetails, Principal {
 
+    // todo : Ecommerce and Social profiles
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -55,7 +57,7 @@ public class User implements UserDetails, Principal {
     public Collection<? extends GrantedAuthority> getAuthorities () {
         return this.roles
                 .stream()
-                .map(r -> new SimpleGrantedAuthority(r.getName().toString()))
+                .map(r -> new SimpleGrantedAuthority(r.getName().name()))
                 .toList();
     }
 

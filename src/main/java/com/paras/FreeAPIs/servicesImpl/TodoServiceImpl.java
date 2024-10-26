@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -16,7 +17,11 @@ import java.util.Optional;
 public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
 
-    public ResponseDTO getTodos () {
+    public ResponseDTO getTodos (Map<String, String> complete) {
+        if (complete.containsKey("complete")) {
+            List<Todo> todos = todoRepository.findByIsComplete(Boolean.parseBoolean(complete.get("complete")));
+            return ResponseDTO.success("Todos fetched successfully", todos);
+        }
         List<Todo> todos = todoRepository.findAll();
         return ResponseDTO.success("Todos fetched successfully", todos);
     }
@@ -25,14 +30,14 @@ public class TodoServiceImpl implements TodoService {
         Todo todo = Todo.builder()
                         .title(todoRequestDTO.title())
                         .description(todoRequestDTO.description())
-                        .completed(false)
+                        .isComplete(false)
                         .build();
         todoRepository.save(todo);
         return ResponseDTO.success("Todo added successfully", todo);
     }
 
     public ResponseDTO getTodoById (String id) {
-        Optional<Todo> todo = todoRepository.findById(Long.valueOf(id));
+        Optional<Todo> todo = todoRepository.findById(id);
         if (todo.isPresent()) {
             return ResponseDTO.success("Todo fetched successfully", todo.get());
         }
@@ -40,7 +45,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     public ResponseDTO updateTodo (String id, TodoRequestDTO todoRequestDTO) {
-        Optional<Todo> todoOptional = todoRepository.findById(Long.valueOf(id));
+        Optional<Todo> todoOptional = todoRepository.findById(id);
         if (todoOptional.isPresent()) {
             Todo todo = todoOptional.get();
             todo.setTitle(todoRequestDTO.title());
@@ -52,19 +57,20 @@ public class TodoServiceImpl implements TodoService {
     }
 
     public ResponseDTO deleteTodo (String id) {
-        Optional<Todo> todoOptional = todoRepository.findById(Long.valueOf(id));
+        Optional<Todo> todoOptional = todoRepository.findById(id);
         if (todoOptional.isPresent()) {
             todoRepository.delete(todoOptional.get());
-            return ResponseDTO.success("Todo deleted successfully", null);
+            Map<String, Object> deletedTodo = Map.of("deletedTodo", todoOptional.get());
+            return ResponseDTO.success("Todo deleted successfully", deletedTodo);
         }
         return ResponseDTO.error("Todo not found", "Todo with id " + id + " not found");
     }
 
     public ResponseDTO toggleTodoStatus (String id) {
-        Optional<Todo> todoOptional = todoRepository.findById(Long.valueOf(id));
+        Optional<Todo> todoOptional = todoRepository.findById(id);
         if (todoOptional.isPresent()) {
             Todo todo = todoOptional.get();
-            todo.setCompleted(!todo.isCompleted());
+            todo.setIsComplete(!todo.getIsComplete());
             todoRepository.save(todo);
             return ResponseDTO.success("Todo status toggled successfully", todo);
         }

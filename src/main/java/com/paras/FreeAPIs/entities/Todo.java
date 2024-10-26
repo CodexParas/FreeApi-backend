@@ -1,12 +1,13 @@
 package com.paras.FreeAPIs.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Data
 @Entity
@@ -17,23 +18,26 @@ import java.sql.Timestamp;
 public class Todo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String _id;
 
     private String title;
     private String description;
-    private boolean completed;
-    private Timestamp createdDate;
-    private Timestamp updatedDate;
+    private Boolean isComplete;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    private Instant createdAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    private Instant updatedAt;
 
     @PrePersist
     public void prePersist () {
-        this.createdDate = new Timestamp(System.currentTimeMillis());
-        this.updatedDate = new Timestamp(System.currentTimeMillis());
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
     @PreUpdate
     public void preUpdate () {
-        this.updatedDate = new Timestamp(System.currentTimeMillis());
+        this.updatedAt = Instant.now();
     }
 }

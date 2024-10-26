@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/todos")
 @RequiredArgsConstructor
@@ -18,12 +20,12 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @GetMapping("/")
-    public ResponseEntity<ResponseDTO> getTodos () {
-        return ResponseEntity.ok(todoService.getTodos());
+    @GetMapping()
+    public ResponseEntity<ResponseDTO> getTodos (@RequestParam Map<String, String> params) {
+        return ResponseEntity.ok(todoService.getTodos(params));
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<ResponseDTO> addTodo (@Valid @RequestBody TodoRequestDTO todoRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(todoService.addTodo(todoRequestDTO));
     }

@@ -3,8 +3,10 @@ package com.paras.FreeAPIs.services;
 import com.paras.FreeAPIs.DTO.ResponseDTO;
 import com.paras.FreeAPIs.DTO.TodoRequestDTO;
 
+import java.util.Map;
+
 public interface TodoService {
-    ResponseDTO getTodos ();
+    ResponseDTO getTodos (Map<String, String> complete);
 
     ResponseDTO addTodo (TodoRequestDTO todoRequestDTO);
 

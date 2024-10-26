@@ -14,12 +14,16 @@ public class ResponseDTO {
     private Object data;
     private Status status;
     private String error;
+    private Integer statusCode;
+    private boolean success;
 
     public static ResponseDTO success (String message, Object data) {
         return ResponseDTO.builder()
                           .message(message)
                           .data(data)
                           .status(Status.SUCCESS)
+                          .statusCode(200)
+                          .success(true)
                           .build();
     }
 
@@ -28,6 +32,8 @@ public class ResponseDTO {
                           .message(message)
                           .error(error)
                           .status(Status.ERROR)
+                          .statusCode(500)
+                          .success(false)
                           .build();
     }
 
@@ -36,6 +42,8 @@ public class ResponseDTO {
                           .message(message)
                           .data(data)
                           .status(Status.FAILURE)
+                          .statusCode(400)
+                          .success(false)
                           .build();
     }
 

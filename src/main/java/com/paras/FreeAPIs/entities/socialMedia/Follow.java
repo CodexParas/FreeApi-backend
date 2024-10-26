@@ -21,10 +21,10 @@ public class Follow {
     private Long id;
 
     @ManyToOne
-    private Profile followerId;
+    private SocialMediaProfile followerId;
 
     @ManyToOne
-    private Profile followeeId;
+    private SocialMediaProfile followeeId;
 
     private Timestamp createdAt;
     private Timestamp lastModifiedAt;

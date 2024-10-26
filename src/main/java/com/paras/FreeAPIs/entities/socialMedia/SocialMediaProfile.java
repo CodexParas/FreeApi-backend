@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "social_profiles")
-public class Profile {
+public class SocialMediaProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
